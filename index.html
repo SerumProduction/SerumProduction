@@ -4,11 +4,12 @@
 <head>
   <script src="aframe_stuff.js"></script>
   <script src="aframe-physics-system.js"></script>
-  <script src='https://sdk.altvr.com/libs/altspace.js/2.6.1/altspace.min.js'></script>
+  <script src='https://sdk.altvr.com/libs/altspace.js/0.8.0/altspace.min.js'></script>
 </head>
 
 <body>
-  <a-scene id="scene" altspace="fullspace: true" environment physics="debug: true" cursor="rayOrigin: mouse" fog="color: black; near: -10; far: 30;">
+  <a-scene id="scene" altspace="fullspace: true" environment physics="debug: true" cursor="rayOrigin: mouse" 
+           fog="color: black; near: -10; far: 30;">
     <a-assets id="asset-list">
       <a-asset-item id="key-obj" src="assets/key.obj"></a-asset-item>
       <a-asset-item id="room-obj" src="assets/room.obj"></a-asset-item>
