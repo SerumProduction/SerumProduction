@@ -132,7 +132,7 @@ function flickrResults(json) {
   // console.log(img);
 };
 
-// Alerts
+//Alerts
 /*setTimeout(function() {
   alert(`Welcome to Tr4sh P4nda's Room Escape! Find the key to unlock the door and escape.\n \nUse W-A-S-D keys to move around and Left-Click + Drag to look around.`);
 }, 2000);
