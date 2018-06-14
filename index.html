@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <a-scene id="scene" altspace='fullspace: true' environment physics="debug: true" cursor="rayOrigin: mouse" 
+  <a-scene id="scene" altspace='fullspace: true; is-enclosure: true' environment physics="debug: true" cursor="rayOrigin: mouse" 
            fog="color: black; near: -10; far: 30;">
     <a-assets id="asset-list">
       <a-asset-item id="key-obj" src="assets/key.obj"></a-asset-item>
@@ -36,9 +36,9 @@
       <a-asset-item id="lights-mtl" src="assets/Lights.mtl"></a-asset-item>
     </a-assets>
 
-    <!--a-camera wasd-controls-enabled="true" position=" 0 1.5 0">
+    <a-camera wasd-controls-enabled="true" position=" 0 1.5 0">
       <a-cursor id="cursor" fuse="false" obj-model="obj:assets/key.obj;" color="gold" opacity="0.1" scale="0.001 0.001 0.001" position="-0.15 0.05 -0.1" rotation="0 110 0"></a-cursor>
-    </a-camera-->
+    </a-camera>
     <a-entity id="mother" rotation="0 180 0">
       <a-sound id="drawer_bot_snd" src="" autoplay="true" loop="false" position="0 0 0" volume="2"></a-sound>
       <a-sound id="drawer_mid_snd" src="" autoplay="true" loop="false" position="0 0 0" volume="2"></a-sound>
