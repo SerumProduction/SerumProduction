@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -5,18 +6,201 @@
   <link rel="shortcut icon" type="image/png" href="assets/TPLogo.png">
   <script src="aframe_stuff.js"></script>
   <script src="aframe-physics-system.js"></script>
-  <script src="Background_Setup.js"></script>
+  <script src='https://sdk.altvr.com/libs/altspace.js/2.6.1/altspace.min.js'></script>
 </head>
 
-<body>
-<a-scene environment physics="debug: true" cursor="rayOrigin: mouse" fog="color: black; near: -10; far: 30;">
-  <a-camera wasd-controls-enabled="true" position="0 1.5 0">
-    <a-cursor id="cursor" fuse="false" obj-model="obj:assets/key.obj;" color="black" opacity="0.2"
-              scale="0.001 0.001 0.001" position="-0.135 0.05 -0.1" rotation="0 110 0"></a-cursor>
-  </a-camera>
-</a-scene>
-<script src="main.js"></script>
-<script src='https://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=flickrResults&tags=tr4shp4nda&format=json'></script>
+<body id="body">
+  <a-scene id="scene" altspace='fullspace: true' environment physics="debug: true" cursor="rayOrigin: mouse" fog="color: black; near: -10; far: 30;">
+    <a-assets id="asset-list">
+      <a-asset-item id="key-obj" src="assets/key.obj"></a-asset-item>
+      <a-asset-item id="room-obj" src="assets/room.obj"></a-asset-item>
+      <a-asset-item id="room-mtl" src="assets/room.mtl"></a-asset-item>
+      <a-asset-item id="side-table-obj" src="assets/side-table.obj"></a-asset-item>
+      <a-asset-item id="side-table-mtl" src="assets/side-table.mtl"></a-asset-item>
+      <a-asset-item id="drawer-bottom-obj" src="assets/drawer-bottom.obj"></a-asset-item>
+      <a-asset-item id="drawer-bottom-mtl" src="assets/drawer-bottom.mtl"></a-asset-item>
+      <a-asset-item id="drawer-middle-obj" src="assets/drawer-middle.obj"></a-asset-item>
+      <a-asset-item id="drawer-middle-mtl" src="assets/drawer-middle.mtl"></a-asset-item>
+      <a-asset-item id="drawer-top-obj" src="assets/drawer-top.obj"></a-asset-item>
+      <a-asset-item id="drawer-top-mtl" src="assets/drawer-top.mtl"></a-asset-item>
+      <a-asset-item id="door-obj" src="assets/door.obj"></a-asset-item>
+      <a-asset-item id="door-mtl" src="assets/door.mtl"></a-asset-item>
+      <a-asset-item id="lamps-obj" src="assets/lamps.obj"></a-asset-item>
+      <a-asset-item id="lamps-mtl" src="assets/lamps.mtl"></a-asset-item>
+      <a-asset-item id="dj-obj" src="assets/DJTable.obj"></a-asset-item>
+      <a-asset-item id="dj-mtl" src="assets/DJTable.mtl"></a-asset-item>
+      <a-asset-item id="stage-obj" src="assets/Stage.obj"></a-asset-item>
+      <a-asset-item id="stage-mtl" src="assets/Stage.mtl"></a-asset-item>
+      <a-asset-item id="ltMounts-obj" src="assets/LtMounts.obj"></a-asset-item>
+      <a-asset-item id="ltMounts-mtl" src="assets/LtMounts.mtl"></a-asset-item>
+      <a-asset-item id="lights-obj" src="assets/Lights.obj"></a-asset-item>
+      <a-asset-item id="lights-mtl" src="assets/Lights.mtl"></a-asset-item>
+    </a-assets>
+
+    <a-camera wasd-controls-enabled="true" position="0 1.5 0">
+      <a-cursor id="cursor" fuse="false" obj-model="obj:assets/key.obj;" color="gold" opacity="0.1" scale="0.001 0.001 0.001" position="-0.15 0.05 -0.1" rotation="0 110 0"></a-cursor>
+    </a-camera>
+    <a-entity id="mother" rotation="0 180 0">
+      <a-sound id="drawer_bot_snd" src="" autoplay="true" loop="false" position="0 0 0" volume="2"></a-sound>
+      <a-sound id="drawer_mid_snd" src="" autoplay="true" loop="false" position="0 0 0" volume="2"></a-sound>
+      <a-sound id="drawer_top_snd" src="" autoplay="true" loop="false" position="0 0 0" volume="2"></a-sound>
+      <a-sound id="door_open_snd" src="" autoplay="true" loop="false" position="0 0 0" volume="2"></a-sound>
+      <a-entity id="key" obj-model="obj:assets/key.obj;" material="color: gold; opacity: 1" position="-3.66 -0.303 -0.11" scale="0.025 0.025 0.025" rotation="0 125 90"></a-entity>
+      <a-entity id="room" obj-model="obj: #room-obj; mtl: #room-mtl" position="0 -0.5 0" scale="1 1 1" rotation="0 0 0" roughness="1"></a-entity>
+      <a-entity id="side-table" obj-model="obj: #side-table-obj; mtl: #side-table-mtl" position="0 -0.5 0" scale="1 1 1" rotation="0 0 0"></a-entity>
+      <a-entity id="drawer-bottom" obj-model="obj: #drawer-bottom-obj; mtl: #drawer-bottom-mtl" position="0 -0.5 0" scale="1 1 1" rotation="0 0 0">
+        <a-image id="image" src="" position="-3.75 0.31 0" rotation="-90 90 0" width="0.4" height="0.4"></a-image>
+      </a-entity>
+      <a-entity id="drawer-middle" obj-model="obj: #drawer-middle-obj; mtl: #drawer-middle-mtl" position="0 -0.5 0" scale="1 1 1" rotation="0 0 0"></a-entity>
+      <a-entity id="drawer-top" obj-model="obj: #drawer-top-obj; mtl: #drawer-top-mtl" position="0 -0.5 0" scale="1 1 1" rotation="0 0 0"></a-entity>
+      <a-entity id="door" obj-model="obj: #door-obj; mtl: #door-mtl" position="0 -0.5 0" scale="1 1 1" rotation="0 0 0"></a-entity>
+      <a-entity id="lamps" obj-model="obj: #lamps-obj; mtl: #lamps-mtl" position="0 -0.5 0" scale="1 1 1" rotation="0 0 0"></a-entity>
+      <a-entity id="error" material="opacity: 1">
+        <a-box id="error-box" geometry="depth:8.05;width:8.05;height:4.05" position="0 1.5 0" material="color:red"></a-box>
+        <a-image src="assets/error.png" position="0 1.5 4.04" rotation="0 0 0" width="8" height="4" material="side:front"></a-image>
+        <a-image src="assets/error.png" position="0 1.5 -4.04" rotation="0 180 0" width="8" height="4" material="side:front"></a-image>
+        <a-image src="assets/error.png" position="4.04 1.5 0" rotation="0 90 0" width="8" height="4" material="side:front"></a-image>
+        <a-image src="assets/error.png" position="-4.04 1.5 0" rotation="0 -90 0" width="8" height="4" material="side:front"></a-image>
+      </a-entity>
+
+      <a-entity id="sky" geometry="primitive: sphere; radius: 65;" material="shader: skyGradient; colorTop: #353449; colorBottom: #BC483E; side: back"></a-entity>
+      <a-entity id="ground" ground position="0 -0.5 0" rotation="0 90 0" scale="1.5 1.5 1.5"></a-entity>
+      <a-entity light="type: ambient; color: #ffffff; intensity: 2;" position="0 1.5 0"></a-entity>
+
+      <a-entity id="after_party" position="0 -200 -10" rotation="0 90 0">
+        <a-entity id="stage_set" position="1w 0 0" rotation="0 -90 0">
+          <a-entity id="djTable" obj-model="obj: #dj-obj; mtl: #dj-mtl" position="0 0 5" scale="1 1 1" rotation="0 0 0" ></a-entity>
+          <a-image id="Tr4sh-P4nda" src="assets/Tr4sh P4nda Suit Vector.png" position="0 1 5.5" rotation="0 180 0" height="2" material="side:double"></a-image>
+          <a-text id="musicBy" value="Music mix by: Tr4sh P4nda" position="0 4 5.5" rotation=" 0 180 0" side="double" align="center"></a-text>
+          <a-text id="thanks" value="Thanks for playing!" position="0 3 5.5" rotation=" 0 180 0" scale="2 2 2" side="double" align="center"></a-text>
+          <a-entity id="stage" obj-model="obj: #stage-obj; mtl: #stage-mtl" position="0 0 -5.5" scale="1 1 1" rotation="0 180 0" ></a-entity>
+          <a-entity id="ltMounts" obj-model="obj: #ltMounts-obj; mtl: #ltMounts-mtl" position="0 -2 -6.5" scale="1 1 1" rotation="0 180 0" ></a-entity>
+          <a-entity id="lights" obj-model="obj: #lights-obj; mtl: #lights-mtl" position="0 -2 -6.5" scale="1 1 1" rotation="0 180 0" ></a-entity>
+        </a-entity>
+        <a-sound id="music" src="" autoplay="true" loop="true" position="0 0 0" volume="1"></a-sound>
+        <a-image src="assets/TP.png" position="5.9 2 0" rotation="0 -90 0" width="8" height="4" material="side:front" geometry="width:4"></a-image>
+        <a-entity id='lights-and-stuff'>
+          <a-box id="win" geometry="depth:8.05;width:8.05;height:4.05" position="10 2 0" material="color:black"></a-box>
+          <a-entity id="laser1" position="0 0 4">
+
+            <a-cylinder position="0 0 0" scale="1 0.39 1" radius="0.15" material="color:#000000">
+            </a-cylinder>
+
+            <a-cylinder position="0 0.2 0" scale="1 0 1" radius="0.125" material="src:url(assets/discoball.jpg);opacity:0.5">
+            </a-cylinder>
+
+            <a-cylinder id="laser1.1" position="0 -0.27 0" scale="1 20 1" radius="0.01" color="#ff040b" transparent="true" rotation="0 0 -15" visible="true">
+              <a-animation rotation="0 0 0" attribute="rotation" from='0 0 0' to='15 360 0' direction="alternate" dur='1000' easing="linear" repeat='indefinite' easeInOut="sine">
+              </a-animation>
+
+              <a-animation attribute="opacity" from='0' to='0.8' direction="alternate" dur='50' repeat='indefinite'>
+              </a-animation>
+            </a-cylinder>
+
+            <a-cylinder id="laser1.2" position="0 -0.27 0" scale="1 20 1" radius="0.01" color="#00FF22" transparent="true" rotation="0 72 -15" visible="true">
+              <a-animation rotation="0 72 0" attribute="rotation" from='0 72 0' to='15 432 0' direction="alternate" dur='1000' easing="linear" repeat='indefinite' easeInOut="sine">
+              </a-animation>
+              <a-animation attribute="opacity" from='0' to='0.8' direction="alternate" dur='50' repeat='indefinite'>
+              </a-animation>
+            </a-cylinder>
+
+            <a-cylinder id="laser1.3" position="0 -0.27 0" scale="1 20 1" radius="0.01" color="#0044FF" transparent="true" rotation="0 144 -15" visible="true">
+              <a-animation rotation="0 144 0" attribute="rotation" from='0 144 0' to='15 504 0' direction="alternate" dur='1000' easing="linear" repeat='indefinite' easeInOut="sine">
+              </a-animation>
+              <a-animation attribute="opacity" from='0' to='0.8' direction="alternate" dur='50' repeat='indefinite'>
+              </a-animation>
+            </a-cylinder>
+
+            <a-cylinder id="laser1.4" position="0 -0.27 0" scale="1 20 1" radius="0.01" color="#EFFF00" transparent="true" rotation="0 216 -15" visible="true">
+              <a-animation rotation="0 216 0" attribute="rotation" from='0 216 0' to='15 576 0' direction="alternate" dur='1000' easing="linear" repeat='indefinite' easeInOut="sine">
+              </a-animation>
+
+              <a-animation attribute="opacity" from='0' to='0.8' direction="alternate" dur='50' repeat='indefinite'>
+              </a-animation>
+            </a-cylinder>
+
+            <a-cylinder id="laser1.5" position="0 -0.27 0" scale="1 20 1" radius="0.01" color="#FF00F7" transparent="true" rotation="0 288 -15" visible="true">
+              <a-animation rotation="0 288 0" attribute="rotation" from='0 288 0' to='15 648 0' direction="alternate" dur='1000' easing="linear" repeat='indefinite' easeInOut="sine">
+              </a-animation>
+
+              <a-animation attribute="opacity" from='0' to='0.8' direction="alternate" dur='50' repeat='indefinite'>
+              </a-animation>
+            </a-cylinder>
+
+            <a-animation rotation="0 0 0" attribute="rotation" from='0 0 -30' to='0 0 30' direction="alternate" dur='5000' easing="linear" repeat='indefinite' easeInOut="sine">
+            </a-animation>
+          </a-entity>
+
+          <a-entity id="laser2" position="0 0 -4">
+            <a-cylinder position="0 0 0" scale="1 0.39 1" radius="0.15" material="color:#000000">
+            </a-cylinder>
+
+            <a-cylinder position="0 0.2 0" scale="1 0 1" radius="0.125" material="src:url(assets/discoball.jpg);opacity:0.5">
+            </a-cylinder>
+
+            <a-cylinder id="laser2.1" position="0 -0.27 0" scale="1 20 1" radius="0.01" color="#ff040b" transparent="true" rotation="0 0 -15" visible="true">
+              <a-animation rotation="0 0 0" attribute="rotation" from='0 0 0' to='15 360 0' direction="alternate" dur='1000' easing="linear" repeat='indefinite' easeInOut="sine">
+              </a-animation>
+
+              <a-animation attribute="opacity" from='0' to='0.8' direction="alternate" dur='50' repeat='indefinite'>
+              </a-animation>
+            </a-cylinder>
+
+            <a-cylinder id="laser2.2" position="0 -0.27 0" scale="1 20 1" radius="0.01" color="#00FF22" transparent="true" rotation="0 72 -15" visible="true">
+              <a-animation rotation="0 72 0" attribute="rotation" from='0 72 0' to='15 432 0' direction="alternate" dur='1000' easing="linear" repeat='indefinite' easeInOut="sine">
+              </a-animation>
+
+              <a-animation attribute="opacity" from='0' to='0.8' direction="alternate" dur='50' repeat='indefinite'>
+              </a-animation>
+            </a-cylinder>
+
+            <a-cylinder id="laser2.3" position="0 -0.27 0" scale="1 20 1" radius="0.01" color="#0044FF" transparent="true" rotation="0 144 -15" visible="true">
+              <a-animation rotation="0 144 0" attribute="rotation" from='0 144 0' to='15 504 0' direction="alternate" dur='1000' easing="linear" repeat='indefinite' easeInOut="sine">
+              </a-animation>
+
+              <a-animation attribute="opacity" from='0' to='0.8' direction="alternate" dur='50' repeat='indefinite'>
+              </a-animation>
+            </a-cylinder>
+
+            <a-cylinder id="laser2.4" position="0 -0.27 0" scale="1 20 1" radius="0.01" color="#EFFF00" transparent="true" rotation="0 216 -15" visible="true">
+              <a-animation rotation="0 216 0" attribute="rotation" from='0 216 0' to='15 576 0' direction="alternate" dur='1000' easing="linear" repeat='indefinite' easeInOut="sine">
+              </a-animation>
+
+              <a-animation attribute="opacity" from='0' to='0.8' direction="alternate" dur='50' repeat='indefinite'>
+              </a-animation>
+            </a-cylinder>
+            <a-cylinder id="laser2.5" position="0 -0.27 0" scale="1 20 1" radius="0.01" color="#FF00F7" transparent="true" opacity="0.8" rotation="0 288 -15" visible="true">
+              <a-animation rotation="0 288 0" attribute="rotation" from='0 288 0' to='15 648 0' direction="alternate" dur='1000' easing="linear" repeat='indefinite' easeInOut="sine">
+              </a-animation>
+              <a-animation attribute="opacity" from='0' to='0.8' direction="alternate" dur='50' repeat='indefinite'>
+              </a-animation>
+            </a-cylinder>
+            <a-animation rotation="0 0 0" attribute="rotation" from='0 0 30' to='0 0 -30' direction="alternate" dur='5000' easing="linear" repeat='indefinite' easeInOut="sine">
+            </a-animation>
+          </a-entity>
+
+          <a-entity id="discoball" position="0 5 0">
+            <a-sphere segments-height="18" segments-width="18" src="assets/discoball.jpg" width="1" height=".5" radius=".75" side="double" position="0 0 0" rotation="0 0 0">
+              <a-animation attribute="rotation" dur="10000" fill="backwards" to="0 360 0" repeat="indefinite" easing="linear">
+              </a-animation>
+            </a-sphere>
+
+            <a-sphere segments-height="18" segments-width="18" src="assets/discoball.jpg" width="1" height=".5" radius=".75" side="double" position="0  0 0" rotation="0 0 0">
+              <a-animation attribute="rotation" dur="10000" fill="backwards" to="0 -360 0" repeat="indefinite" easing="linear">
+              </a-animation>
+            </a-sphere>
+          </a-entity>
+
+          <a-entity id="danceFloor" geometry="primitive: box;" position='0 0 0' scale='5 .1 6'></a-entity>
+        </a-entity>
+      </a-entity>
+
+    </a-entity>
+  </a-scene>
+  <script src="Background_Setup.js"></script>
+  <script src="main.js"></script>
+  <script src='https://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=flickrResults&tags=tr4shp4nda&format=json'></script>
+  <script></script>
 </body>
 
 </html>
