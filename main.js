@@ -19,6 +19,7 @@ let key = document.getElementById('key'),
   win = document.getElementById('win'),
   after_party = document.getElementById('after_party'),
   music = document.getElementById('music'),
+  musicplayer = music.components.sound,
   img = [],
   image = document.getElementById('image'),
   imgbttn = document.getElementById('imgbttn'),
@@ -110,7 +111,7 @@ door.addEventListener('click', function() {
     door_open_snd.setAttribute('src', open_door);
     error.setAttribute('position', '0 -20 0');
     after_party.setAttribute('position', '0 -0.5 10');
-    music.setAttribute('autoplay', 'true');
+    musicplayer = playSound();
     inv.setAttribute('opacity', '0');
     inv.setAttribute('position', '0 0 0');
     waiting = waiting + 1;
