@@ -735,7 +735,7 @@ async function buildScene() {
   addDiscoBall1();
 
   console.log('SCENE LOADED');
-  console.log(lightsAndStuff);
+  console.log(scene);
 };
 buildScene();
 
