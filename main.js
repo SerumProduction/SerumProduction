@@ -110,7 +110,7 @@ door.addEventListener('click', function() {
     door_open_snd.setAttribute('src', open_door);
     error.setAttribute('position', '0 -20 0');
     after_party.setAttribute('position', '0 -0.5 10');
-    music.setAttribute('src', music_src);
+    music.setAttribute('autoplay', 'true');
     inv.setAttribute('opacity', '0');
     inv.setAttribute('position', '0 0 0');
     waiting = waiting + 1;
