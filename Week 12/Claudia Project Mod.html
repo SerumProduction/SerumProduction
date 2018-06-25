@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Final Project: Browser Synth</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
+    <style>
+      *{
+        font-family: Arial;
+      }
+      html {
+        width: 100%;
+        height: 100%;
+      }
+      body {
+        background-color: #d1d3d6;
+        width: 100%;
+        height: 100%;
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flexbox;
+        display: -ms-flex;
+        display: flex;
+        -webkit-justify-content: center;
+        -moz-justify-content: center;
+        -ms-justify-content: center;
+        justify-content: center;
+        -webkit-align-items: center;
+        -moz-align-items: center;
+        -ms-align-items: center;
+        align-items: center;
+      }
+      h1{
+        text-align: center;
+        color: white;
+        background-color: black;
+      }
+      h2{
+        margin: 0px;
+      }
+      .h2-custom {
+        text-align: center;
+        padding-bottom: 10px;
+      }
+      #synth-body {
+        background-color: #212121;
+        border-left: 1rem solid #eaeeef;
+        border-right: 1rem solid #eaeeef;
+        border-radius: 0.38196601065988556rem;
+        padding: 1.61803399rem;
+        font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color: #eaeeef;
+        -webkit-box-shadow: 0 0 1.61803399rem rgba(0, 0, 0, 0.5);
+        box-shadow: 0 0 1.61803399rem rgba(0, 0, 0, 0.5);
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+        width: 40rem;
+      }
+      #gainHeader{
+        color: white;
+        text-align: center;
+        padding-top: 10px;
+        padding-bottom: 5px;
+      }
+      button {
+        background-color: #9b3636; /* Green */
+        border: none;
+        color: white;
+        padding: 10px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+      }
+      select {
+         background: no-repeat right center;
+         height: 34px;
+         width: 240px;
+         background-color: white;
+         font-size: 14px;
+      }
+      .row {
+        display: flex;
+      }
+      .column {
+        float: left;
+        width: 32%;
+        padding: 5px;
+        flex: 1;
+      }
+      .column:nth-child(even) {
+        background-color: #888888;
+      }
+      .column:nth-child(odd) {
+        background-color: #666666;
+      }
+      /* Clear floats after the columns */
+      .row:after {
+        contet: "";
+        display: table;
+        clear: both;
+      }
+      .column#column3{
+        vertical-align: middle;
+      }
+      .slidecontainer {
+          width: 100%; /* Width of the outside container */
+      }
+      /* The slider itself */
+      .slider {
+          -webkit-appearance: none;  /* Override default CSS styles */
+          appearance: none;
+          width: 100%; /* Full-width */
+          height: 25px; /* Specified height */
+          background: #AAAAAA; /* Grey background */
+          outline: none; /* Remove outline */
+          opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+          -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+          transition: opacity .2s;
+      }
+      /* Mouse-over effects */
+      .slider:hover {
+          opacity: 1; /* Fully shown on mouse-over */
+      }
+      /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+      .slider::-webkit-slider-thumb {
+          -webkit-appearance: none; /* Override default look */
+          appearance: none;
+          width: 25px; /* Set a specific slider handle width */
+          height: 25px; /* Slider handle height */
+          background: #19598c; /* Green background */
+          cursor: pointer; /* Cursor on hover */
+      }
+      .slider::-moz-range-thumb {
+          width: 25px; /* Set a specific slider handle width */
+          height: 25px; /* Slider handle height */
+          background: #19598c; /* Green background */
+          cursor: pointer; /* Cursor on hover */
+      }
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 30px;
+        height: 17px;
+      }
+      /* Hide default HTML checkbox */
+      .switch input {display:none;}
+      /* The slider */
+      .slider-checkbox {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+      .slider-checkbox:before {
+        position: absolute;
+        content: "";
+        height: 13px;
+        width: 13px;
+        left: 2px;
+        bottom: 2px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+      input:checked + .slider-checkbox {
+        background-color: #2196F3;
+      }
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+      }
+      input:checked + .slider-checkbox:before {
+        -webkit-transform: translateX(13px);
+        -ms-transform: translateX(13px);
+        transform: translateX(13px);
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="synth-body">
+      <h1>Web Synth
+        <br>
+        <button type="button" id = "start">START</button>
+        <button type="button" class = "mute" data-muted = "false" id = "start">MUTE</button>
+      </h1>
+      <div class="row">
+        <div class="column" id = "column1">
+          <h2 class = "h2-custom">Oscillator 1</h2>
+          <div>Type:
+            <select id = "osc1Type" onchange = "osc1Type()">
+              <option value="sine" id ="o1sine">Sine</option>
+              <option value="sawtooth" id = "o1sawtooth">Sawtooth</option>
+              <option value="square" id = "o1square">Square</option>
+              <option value="triangle" id = "o1triangle">Triangle</option>
+            </select>
+          </div>
+          <br>
+          <div>Frequency <output id="osc1FOut">440 Hz</output></div>
+          <div class="slidecontainer" id="controls">
+            <input type="range" min="100" max="10000" value="440" class="slider" oninput = "sliderF1()"  id="osc1Freq">
+
+          </div>
+          <div>Gain</div>
+          <div class="slidecontainer">
+            <input type="range" min="0" max="1" step = "0.1" value="0.5" class="slider" oninput = "sliderG1()" id="osc1Gain">
+          </div>
+        </div>
+
+        <div class="column" id = "column2">
+          <h2 class="h2-custom">Oscillator 2 </h2>
+          <div>Type:
+            <select onchange = "osc2Type()" id = "osc2Type">
+              <option value="sine" id ="o2sine">Sine</option>
+              <option value="sawtooth" id = "o2sawtooth">sawtooth</option>
+              <option value="square" id = "o2square">Square</option>
+              <option value="triangle" id = "o2triangle">Triangle</option>
+            </select>
+          </div>
+          <br>
+          <div>Frequency <output id="osc2FOut"> 1200 Hz</output></div>
+          <div class="slidecontainer">
+            <input type="range" min="100" max="10000" value="1200" class="slider" oninput = "sliderF2()" id="osc2Freq">
+          </div>
+          <div>Gain</div>
+          <div class="slidecontainer">
+            <input type="range" min="0" max="1" step = "0.1" value="0.5" class="slider" oninput = "sliderG2()" id="osc2Gain">
+          </div>
+        </div>
+
+        <div class="column" id="column3">
+          <h2 class="h2-custom">Effects</h2>
+          <br>
+          LP Filter (freq) <output id="LPout">1000 Hz</output>
+          <div class="slidecontainer">
+            <input type="range" min="200" max="10000" value="1000" class="slider" oninput = "LPslider()" id="lpfilter">
+          </div>
+          HP Filter (freq) <output id="HPout">200 Hz</output>
+          <div class="slidecontainer">
+            <input type="range" min="200" max="10000" value="200" class="slider" oninput = "HPslider()" id="hpfilter">
+          </div>
+        </div>
+      </div>
+      <h2 id = "gainHeader">Main Gain</h2>
+      <div class="slidecontainer">
+        <input type="range" min="0" max="1" step = "0.01" value="1" class="slider" oninput = "MGslider()"  id="mainGain">
+      </div>
+    </div>
+
+    <script>
+
+      var AudioContext = window.AudioContext || window.webkitAudioContext;
+      var audioCtx = new AudioContext();
+      //OSCILLATOR 1
+      var oscillatorNode1 = audioCtx.createOscillator();
+      oscillatorNode1.frequency.value = document.getElementById("osc1Freq").value;
+      //Retrieves slider value and changes FREQ of the oscillator.
+      function sliderF1() {
+         var val = document.getElementById("osc1Freq").value //gets the oninput value
+         oscillatorNode1.frequency.value = val;
+         document.getElementById('osc1FOut').innerHTML = val + "Hz";
+      }
+      //OSCILLATOR 1 TYPE
+      oscillatorNode1.type = document.getElementById("osc1Type").value;
+      function osc1Type() {
+         var val = document.getElementById("osc1Type").value //gets the oninput value
+         oscillatorNode1.type = val;
+         console.log(oscillatorNode1.type);
+      }
+      //GAIN 1
+      var gainNode1 = audioCtx.createGain();
+      gainNode1.gain.value = document.getElementById("osc1Gain").value;
+      //Retrieves slider value and changes GAIN of the oscillator.
+      function sliderG1() {
+         var val = document.getElementById("osc1Gain").value //gets the oninput value
+         gainNode1.gain.value = val;
+      }
+      //OSCILLATOR 2
+      var oscillatorNode2 = audioCtx.createOscillator();
+      oscillatorNode2.frequency.value = document.getElementById("osc2Freq").value;
+      //Retrieves slider value and changes FREQ of the oscillator.
+      function sliderF2() {
+         var val = document.getElementById("osc2Freq").value //gets the oninput value
+         oscillatorNode2.frequency.value = val;
+         document.getElementById('osc2FOut').innerHTML = val + "Hz";
+      }
+      //OSCILLATOR 2 TYPE
+      oscillatorNode1.type = document.getElementById("osc2Type").value;
+      function osc2Type() {
+         var val = document.getElementById("osc2Type").value //gets the oninput value
+         oscillatorNode2.type = val;
+      }
+      //GAIN 1
+      var gainNode2 = audioCtx.createGain();
+      gainNode2.gain.value = document.getElementById("osc2Gain").value;
+      //Retrieves slider value and changes GAIN of the oscillator.
+      function sliderG2() {
+         var val = document.getElementById("osc2Gain").value //gets the oninput value
+         gainNode2.gain.value = val;
+      }
+      //Low Pass FILTER
+      var lpFilter = audioCtx.createBiquadFilter();;
+      lpFilter.type = "lowpass";
+      lpFilter.frequency.value = document.getElementById("lpfilter").value
+      //Retrives slider value and changes FREQ of lpFilter
+      function LPslider() {
+         var val = document.getElementById("lpfilter").value //gets the oninput value
+         lpFilter.frequency.value = val;
+         document.getElementById('LPout').innerHTML = val + "Hz";
+      }
+      //High Pass FILTER
+      var hpFilter = audioCtx.createBiquadFilter();
+      hpFilter.type = "highpass";
+      hpFilter.frequency.value = document.getElementById("hpfilter").value
+      //Retrives slider value and changes FREQ of lpFilter
+      function HPslider() {
+         var val = document.getElementById("hpfilter").value //gets the oninput value
+         hpFilter.frequency.value = val;
+         document.getElementById('HPout').innerHTML = val + "Hz";
+      }
+      // //Delay.
+      //
+      // var delayNode = new DelayNode(audioCtx);
+      // delayNode.delayTime = document.getElementById("delay").value
+      // function delaySlider() {
+      //    var val = document.getElementById("delay").value //gets the oninput value
+      //    delayNode.delayTime = val;
+      // }
+      //MAIN GAIN slider.
+      var mainGain = audioCtx.createGain();
+      mainGain.gain.value = 0.5;
+      function MGslider() {
+         var val = document.getElementById("mainGain").value //gets the oninput value
+         mainGain.gain.value = val;
+      }
+      //CONNECTIONS
+      oscillatorNode1.connect(gainNode1);
+      oscillatorNode2.connect(gainNode2);
+      gainNode1.connect(hpFilter); //Osc1 and Osc2 muptiply.
+      gainNode2.connect(hpFilter);
+      hpFilter.connect(lpFilter);
+      lpFilter.connect(mainGain);
+      mainGain.connect(audioCtx.destination);
+      $("#start").click(function(){
+        oscillatorNode1.start();
+        oscillatorNode2.start();
+        $("#start").hide()
+      });
+      // mute button
+      var mute = document.querySelector('.mute');
+      mute.onclick = function() {
+        if(mute.getAttribute('data-muted') === 'false') {
+          mainGain.disconnect(audioCtx.destination);
+          mute.setAttribute('data-muted', 'true');
+          mute.innerHTML = "UNMUTE";
+        } else {
+          mainGain.connect(audioCtx.destination);
+          mute.setAttribute('data-muted', 'false');
+          mute.innerHTML = "MUTE";
+        };
+      }
+    </script>
+  </body>
+</html>
